@@ -1,0 +1,158 @@
+{% extends "base.html" %} {% block content %}
+<main role="main" class="container">
+    <div id="result" class="alert alert-success text-center collapse">Record Saved Successfully</div>
+    <div class="row">
+        <div class="col text-right pb-1">
+            <button type="button" class="btn btn-primary" data-toggle="modal" href="#createcategory" role="button" data-target="#usermodal"> Create </button>
+        </div>
+    </div>
+    <hr>
+
+    <table id="example" class="table table-hover display table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+    </table>
+
+    <div class="modal fade bd-example-modal-lg" id="usermodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="usermodaltitle">User</h5>
+                    <button type="button" class="close" data-dismiss="modal" area-label="close">
+            <span area-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <form id="userform">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="user_id" id="user_id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="fname" id="fname" class="form-control form-control-sm" placeholder="First name" required="Please" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="lname" id="lname" class="form-control form-control-sm" placeholder="Last Name" required />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="email" name="email" id="email" class="form-control form-control-sm" placeholder="Email-ID" required />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="pwd" id="pwd" class="form-control form-control-sm" placeholder="Password" required />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="mobile" id="mobile" class="form-control form-control-sm" placeholder="Mobile Number" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+<script>
+    $("#userform").submit(function(e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            method: "post",
+            url: "user/add",
+            data: formData,
+            success: function(data) {
+                $("#usermodal").modal('hide');
+                $("#userform").trigger("reset");
+                notifySuccess("Record Saved Successfully");
+                $('#example').DataTable().ajax.reload();
+                console.log(data)
+            },
+            error: function(data) {
+                console.log(data)
+                notifyFailure("There is an error while saving record." + data);
+            }
+        })
+    })
+
+    function onEdit(user_id) {
+        $.ajax({
+            method: "get",
+            url: "user/get/" + user_id,
+            success: function(data) {
+                $("#fname").val(data.firstname)
+                $("#lname").val(data.lastname)
+                $("#email").val(data.emailid)
+                $("#mobile").val(data.mobile)
+                $("#user_id").val(data.id)
+                $("#usermodal").modal('show');
+            },
+            error: function() {
+                notifyFailure("There is an error while processing. Contact Administrator.");
+            }
+        })
+    }
+
+    $('#usermodal').on('hidden.bs.modal', function() {
+        $("#userform").trigger("reset");
+    })
+
+    $(document).ready(function() {
+        var table = $('#example').DataTable({
+            columnDefs: [{
+                targets: "_all",
+                className: 'text-center'
+            }],
+            "ajax": 'user/get_data',
+            "columns": [{
+                "data": "firstname"
+            }, {
+                "data": "lastname"
+            }, {
+                "data": "emailid"
+            }, {
+                "data": "mobile"
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=' + data + ' href="#' + data + ' " onclick="onEdit(' + data + ')">Edit</a>';
+                }
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=userid_' + data + ' href="user/delete/' + data + '">Delete</a>';
+                }
+            }],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+
+        });
+    });
+</script>
+{% endblock %}

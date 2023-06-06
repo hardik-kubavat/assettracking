@@ -1,0 +1,65 @@
+.table {
+    font-size: smaller;
+}
+
+.table tbody td {
+    padding: 0.2rem;
+    vertical-align: baseline;
+    font-weight: bold;
+}
+
+td.details-control {
+    background: url('open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+    background: url('close.png') no-repeat center center;
+}
+
+.prouctdetail {
+    font-size: small;
+    width: 50%;
+    margin-left: 5%;
+    border: 1px solid bisque;
+}
+
+.prouctdetail td {
+    padding: 3px;
+    text-align: center;
+    border: 1px solid bisque;
+}
+
+.prouctdetail th {
+    padding: 2px;
+    text-align: center;
+    background: bisque;
+}
+
+.odd {
+    background: rgb(209, 239, 240);
+}
+
+.even {
+    background: #aed3f2;
+}
+
+thead {
+    background: #585ad991;
+}
+
+.group {
+    background: #25a486;
+}
+
+
+/*For auto complete */
+
+.ui-helper-hidden-accessible {
+    display: none !important;
+}
+
+ul.ui-autocomplete {
+    list-style: none;
+    z-index: 1150;
+}

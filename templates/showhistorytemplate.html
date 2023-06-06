@@ -1,0 +1,15 @@
+<table class="table table-bordered">
+    <tr>
+        <td colspan="3" class="text-center">{{ product.producttype.name }} - {{ product.category.name }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" class="text-center"> {{ product.srno }} </td>
+    </tr>
+    {% for transaction in transactions %}
+    <tr>
+        <td class="text-center">{{ transaction.created_at }}</td>
+        <td>{{ transaction.locater.name }}</td>
+        <td>{{ transaction.remarks }}</td>
+    </tr>
+    {% endfor %}
+</table>

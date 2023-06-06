@@ -1,0 +1,169 @@
+{% extends "base.html" %} {% block content %}
+<main role="main" class="container">
+    <div id="result" class="alert alert-success text-center collapse">Record Saved Successfully</div>
+    <div class="row">
+        <div class="col text-right pb-1">
+            <button type="button" class="btn btn-primary" data-toggle="modal" href="" role="button" data-target="#servicecallmodal"> Add Service Call </button>
+        </div>
+    </div>
+    <hr>
+
+    <table id="servicecalltable" class="table table-hover display table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product Type</th>
+                <th>Serial No</th>
+                <th>Ticket ID</th>
+                <th>Service Order ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+    </table>
+
+    <div class="modal fade bd-example-modal-lg" id="servicecallmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="servicecallmodaltitle">Product Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" area-label="close">
+            <span area-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <form id="servicecallform">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="servicecall_id" id="servicecall_id" />
+                                <input type="hidden" name="product_id" id="product_id" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="srno" id="srno" class="form-control form-control-sm" placeholder="Product Serial No" required />
+                            </div>
+                            <div class="col">
+                                <input type="text" name="product_type" id="product_type" class="form-control form-control-sm" placeholder="Product Type" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="ticket_id" id="ticket_id" class="form-control form-control-sm" placeholder="Complaint ID or Ticket ID" />
+                            </div>
+                            <div class="col">
+                                <input type="textarea" name="description" id="description" class="form-control form-control-sm" placeholder="Description" required/>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="service_id" id="service_id" class="form-control form-control-sm" placeholder="Service Order ID" />
+                            </div>
+                            <div class="col">
+                                <input type="text" data-provide="datepicker" data-date-format="dd/mm/yyyy" name="call_log_date" id="call_log_date" class="form-control form-control-sm" placeholder="Select Call Log Date" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <select class="form-control form-control-sm" name="status" id="status" required>
+                                    <option value="P" selected>Pending</option>
+                                    <option value="CO">Completed</option>
+                                    <option value="CA">Cancelled</option>
+                                    <option value="OH">On Hold</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <input type="text" name="call_close_date" id="call_close_date" class="form-control form-control-sm" placeholder="Select Call Closed Date" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+
+<script>
+    $("#servicecallform").submit(function(e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            method: "post",
+            url: "servicecalls/add",
+            data: formData,
+            success: function(data) {
+                $("#servicecallmodal").modal('hide');
+                $("#servicecallform").trigger("reset");
+                notifySuccess("Record Saved Successfully");
+                $('#servicecalltable').DataTable().ajax.reload();
+                console.log(data)
+            },
+            error: function(data) {
+                console.log(data)
+                notifyFailure("There is an error while saving record." + data);
+            }
+        })
+    })
+
+    function onEdit(product_type_id) {
+        $.ajax({
+            method: "get",
+            url: "producttype/get/" + product_type_id,
+            success: function(data) {
+                $("#name").val(data.name)
+                $("#description").val(data.description)
+                $("#product_type_id").val(data.id)
+                $("#servicecallmodal").modal('show');
+            },
+            error: function() {
+                notifyFailure("There is an error while processing. Contact Administrator.");
+            }
+        })
+    }
+
+    $('#servicecallmodal').on('hidden.bs.modal', function() {
+        $("#categoryform").trigger("reset");
+    })
+    $("#servicecallmodal").on('shown.bs.modal', function() {
+        $('#name').trigger("focus");
+    });
+
+    $(document).ready(function() {
+        $("#call_log_date").datepicker('setDate', 'now')
+        var table = $('#servicecalltable').DataTable({
+            columnDefs: [{
+                targets: "_all",
+                className: 'text-center'
+            }],
+            "ajax": 'servicecalls/',
+            "columns": [{
+                "data": "name"
+            }, {
+                "data": "description"
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=' + data + ' href="#' + data + ' " onclick="onEdit(' + data + ')">Edit</a>';
+                }
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=product_type_id_' + data + ' href="producttype/delete/' + data + '">Delete</a>';
+                }
+            }],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+
+        });
+    });
+</script>
+{% endblock %}

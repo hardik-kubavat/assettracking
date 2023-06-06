@@ -1,0 +1,28 @@
+body {
+    font: 2em Fontin, serif;
+    font-size: .7em
+}
+
+nav {
+    font-size: .7em
+}
+
+@page {
+    @top-center {
+        content: 'District & Sessions Court, Junagadh';
+    }
+    @bottom-center {
+        content: 'Prepared By : Computer Branch';
+    }
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+    }
+    size: A4 landscape;
+    margin: 2cm;
+}
+
+@media print {
+    nav {
+        display: none
+    }
+}

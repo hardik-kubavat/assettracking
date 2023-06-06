@@ -1,0 +1,23 @@
+The below steps executed in Ubuntu-20.
+
+sudo apt-get update
+sudo apt-get install apache2
+sudo apt-get install python3
+sudo apt-get install python3-pip
+sudo apt-get install libapache2-mod-wsgi-py3
+sudo apt-get install libpq-dev python-dev python-venv
+cp -r apps /var/www/
+cp assettracking.conf /etc/apache2/sites-available
+cd /var/www
+sudo chmod -R www-data:www-data apps
+cd /var/www/apps/assettracking
+execute command python3 -m venv venv
+. venv/bin/activate
+pip3 install -r requirement.txt 
+sudo a2enmod wsgi
+sudo a2ensite assettracking.conf
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql.service
+Python Application require password authentication and needs to submit the password. Therefore, set the password of hte postgres user. You can change the password config.py file.
+create database in postgres with name "assettracking"
+Open Browser and hit localhost/assettracking/createdb. This should create the schema in the database assettracking.

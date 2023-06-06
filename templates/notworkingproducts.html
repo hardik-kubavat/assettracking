@@ -1,0 +1,116 @@
+<html>
+<header>
+    <link href="{{ url_for('static', filename='reports.css') }}" rel="stylesheet">
+    <style>
+        td,
+        th {
+            padding: 10px;
+            border-bottom: 2px solid #8ebf42;
+            text-align: center;
+        }
+        
+        .table {
+            border: solid 1px #4e9797;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font: normal 13px Arial, sans-serif;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            margin-top: 7.5px;
+        }
+        
+        .table thead th {
+            background-color: #DDEFEF;
+            border: solid 1px #53c5c5;
+            color: #336B6B;
+            padding: 3px;
+            text-align: center;
+            text-shadow: 1px 1px 1px #fff;
+        }
+        
+        .table tbody td {
+            border: solid 1px #53c5c5;
+            color: #333;
+            padding: 5px;
+            text-shadow: 1px 1px 1px #fff;
+        }
+        
+        .cell-width-25 {
+            word-wrap: break-word;
+            width: 25%;
+        }
+        
+        .cell-width-9 {
+            word-wrap: break-word;
+            width: 9%;
+        }
+        
+        .cell-width-10 {
+            word-wrap: break-word;
+            width: 10%;
+        }
+        
+        .cell-width-12 {
+            word-wrap: break-word;
+            width: 12%;
+        }
+        
+        .cell-width-15 {
+            word-wrap: break-word;
+            width: 15%;
+        }
+        
+        .cell-width-20 {
+            word-wrap: break-word;
+            width: 20%;
+        }
+    </style>
+</header>
+
+<body style="text-align: center;">
+    <h3 style="text-align: center;">Not Working Asset Report</h3>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Category</th>
+                <th>Product Type</th>
+                <th>Serial No</th>
+                <th>Identification</th>
+                <th>Status</th>
+                <th>Locater</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                {% if product.owner == 'DC' %}
+                <td>District Court</td>
+                {% elif product.owner == 'HC' %}
+                <td>High Court</td>
+                {% else %}
+                <td>E-Committe</td>
+                {% endif %}
+                <td>{{product.category.name}}</td>
+                <td>{{product.producttype.name}}</td>
+                <td>{{product.srno}}</td>
+                <td>{{product.identification}}</td>
+                {% if product.status == 'NW' %}
+                <td>NOT WORKING</td>
+                {% else %}
+                <td>WORKING</td>
+                {% endif %}
+                <td>{{product.locater.name}}</td>
+                <td>{{product.remarks}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="page-break-before: always"></p>
+
+</body>
+
+</html>

@@ -7,7 +7,7 @@ This application help to track your asset by specifying it's location and mainta
 * Postgresql
 * Web Server: Apache2
 
-#INSTALLATION STEP
+# INSTALLATION STEP
 * sudo apt-get update
 * sudo apt-get install apache2
 * sudo apt-get install python3

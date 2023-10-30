@@ -70,6 +70,8 @@ from view.ReportView import rv
 app.register_blueprint(rv)
 from view.ServiceCallView import sv
 app.register_blueprint(sv)
+from view.FileView import comv
+app.register_blueprint(comv)
 ################### Blueprints #########################
 
 

@@ -49,6 +49,7 @@ def create_app():
     #NavigationView
     from view.NavigationView import nav
     app.register_blueprint(nav)
+    logger.info("Navigation view initialized")
     #Userview
     from view.UserView import uv
     app.register_blueprint(uv)

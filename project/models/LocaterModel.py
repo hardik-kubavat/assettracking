@@ -1,5 +1,4 @@
 from project import db
-from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 
 #Users

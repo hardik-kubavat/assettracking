@@ -1,7 +1,5 @@
-from project import db,logger
-from constants import Owner, Status
-from sqlalchemy.dialects.postgresql import JSON
-from sqlalchemy import event,desc
+from project import db
+from sqlalchemy import desc
 from datetime import datetime
 from project.models.ProductModel import Product
 

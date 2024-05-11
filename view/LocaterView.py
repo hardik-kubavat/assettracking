@@ -1,7 +1,7 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
 from project.models.LocaterModel import Locater
 from project import db,logger
-import traceback
+
 
 lv = Blueprint('locater','locater',url_prefix="/locater")
 

@@ -1,7 +1,6 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
 from project.models.CategoryModel import Category
 from project import db,logger
-import traceback
 
 cv = Blueprint('category','category',url_prefix="/category")
 

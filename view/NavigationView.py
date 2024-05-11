@@ -1,4 +1,3 @@
-from project import app
 from flask import render_template,Blueprint
 
 from project.models import ProductTypeModel,CategoryModel,LocaterModel

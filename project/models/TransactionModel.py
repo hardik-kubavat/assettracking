@@ -1,7 +1,5 @@
 from sqlalchemy.sql.expression import asc
 from project import db,logger
-from constants import Owner, Status
-from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy import event,desc
 from datetime import datetime
 from project.models.ProductModel import Product

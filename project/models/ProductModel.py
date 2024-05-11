@@ -1,7 +1,6 @@
 from sqlalchemy.sql.expression import desc
 from project import db
-from constants import Owner, Status
-from sqlalchemy.dialects.postgresql import JSON
+from constants import Status
 from datetime import datetime
 
 # Models

@@ -10,7 +10,7 @@ pv = Blueprint('product','product',url_prefix="/product")
 
 @pv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('product_id') is '':
+    if request.form and request.form.get('product_id') == '':
         logger.debug("Product add operation is executing...")
         logger.debug(str(request.form))
         try:

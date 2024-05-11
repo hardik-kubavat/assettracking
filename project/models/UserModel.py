@@ -35,7 +35,7 @@ class User(db.Model):
         self.firstname = firstname
         self.lastname = lastname
         self.emailid = emailid
-        self.mobile = None if mobile is '' else mobile 
+        self.mobile = None if mobile == '' else mobile 
         self.password = password
         self.isdeleted = isdeleted
 

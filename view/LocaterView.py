@@ -7,7 +7,7 @@ lv = Blueprint('locater','locater',url_prefix="/locater")
 
 @lv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('locater_id') is '':
+    if request.form and request.form.get('locater_id') == '':
         logger.debug("Locater add operation is executing...")
         try:
             locater = Locater(name=request.form.get('name'),description=request.form.get('description'))

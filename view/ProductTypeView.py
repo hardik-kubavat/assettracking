@@ -7,7 +7,7 @@ pv = Blueprint('ProductType','Producttype',url_prefix="/producttype")
 
 @pv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('product_type_id') is '':
+    if request.form and request.form.get('product_type_id') == '':
         logger.debug("Product Type add operation is executing...")
         try:
             product_type = ProductType(name=request.form.get('name'),description=request.form.get('description'))

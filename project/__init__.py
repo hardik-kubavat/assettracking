@@ -16,7 +16,7 @@ app = Flask(__name__, instance_relative_config=True)
 
 ################### Logger ###########################
 logging.basicConfig(level=logging.DEBUG)
-assettracking_handler = logging.FileHandler(filename="/home/hlkubavat/apps/assettracking/assettracking.log")
+assettracking_handler = logging.FileHandler(filename="/var/www/assettracking/logs/assettracking.log")
 app.logger.setLevel(logging.DEBUG)
 app.logger.removeHandler(default_handler)
 app.logger.addHandler(assettracking_handler)

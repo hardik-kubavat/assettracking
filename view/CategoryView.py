@@ -7,7 +7,7 @@ cv = Blueprint('category','category',url_prefix="/category")
 
 @cv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('category_id') is '':
+    if request.form and request.form.get('category_id') == '':
         logger.debug("Category add operation is executing...")
         logger.debug(str(request.form))
         try:

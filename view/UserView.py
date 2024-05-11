@@ -7,7 +7,7 @@ uv = Blueprint('user','user',url_prefix="/user")
 
 @uv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('user_id') is '':
+    if request.form and request.form.get('user_id') == '':
         logger.debug("User add operation is executing...")
         try:
             user = User(firstname=request.form.get('fname'),lastname=request.form.get('lname'),emailid=request.form.get("email"),password=request.form.get("pwd"),mobile=request.form.get("mobile"))

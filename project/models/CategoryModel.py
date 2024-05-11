@@ -1,5 +1,5 @@
 from sqlalchemy.sql.expression import desc
-from base import db
+from project import db
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 

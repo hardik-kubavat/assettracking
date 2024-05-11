@@ -1,7 +1,7 @@
-from base import app
+from project import app
 from flask import render_template,Blueprint
 
-from models import ProductTypeModel,CategoryModel,LocaterModel
+from project.models import ProductTypeModel,CategoryModel,LocaterModel
 
 nav = Blueprint("navigation",__name__)
 

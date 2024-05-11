@@ -1,6 +1,6 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
-from models.UserModel import User
-from base import db,logger
+from project.models.UserModel import User
+from project import db,logger
 import traceback
 
 uv = Blueprint('user','user',url_prefix="/user")
@@ -52,4 +52,15 @@ def get_user_by_id(user_id):
 @uv.route('/get_data')
 def get_users_json():
     return jsonify(data = [ i.serialize for i in User.query.all()])
+
+@uv.route('/createdb')
+def createdb():
+    try:
+        db.create_all()
+        db.session.commit()
+    except:
+        print("Error in creating database")
+        traceback.print_exc(file=sys.stdout)
+        return make_response("500")
+    return make_response("200")
 

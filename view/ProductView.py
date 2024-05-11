@@ -1,10 +1,10 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for,send_file
-from models.ProductModel import Product
-from base import app,db,logger
+from project.models.ProductModel import Product
+from project import app,db,logger
 from import_products import import_products
 import traceback
 import time,os
-from models import ProductModel
+from project.models import ProductModel
 
 pv = Blueprint('product','product',url_prefix="/product")
 

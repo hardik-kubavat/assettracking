@@ -1,8 +1,8 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
 import traceback,time
 from flask_weasyprint import HTML,render_pdf
-from base import logger
-from models import LocaterModel,ProductTypeModel,CategoryModel,ProductModel
+from project import logger
+from project.models import LocaterModel,ProductTypeModel,CategoryModel,ProductModel
 
 rv = Blueprint('report','report',url_prefix="/report")
 

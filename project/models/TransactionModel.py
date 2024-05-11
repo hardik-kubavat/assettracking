@@ -1,10 +1,10 @@
 from sqlalchemy.sql.expression import asc
-from base import db,logger
+from project import db,logger
 from constants import Owner, Status
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy import event,desc
 from datetime import datetime
-from models.ProductModel import Product
+from project.models.ProductModel import Product
 
 
 class Transaction(db.Model):

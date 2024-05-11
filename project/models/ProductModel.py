@@ -1,5 +1,5 @@
 from sqlalchemy.sql.expression import desc
-from base import db,logger
+from project import db
 from constants import Owner, Status
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
@@ -108,7 +108,6 @@ def getSuggestions(term):
     else:
         for row in result:
             suggestions.append(row[0])
-    logger.debug("Suggestions are : {}".format(str(suggestions)))            
     return suggestions
 
 def getById(product_id):

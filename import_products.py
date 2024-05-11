@@ -1,9 +1,9 @@
 #TODO - This class needs to be organized and also there should be a way to generate the log file.
 
 from openpyxl import load_workbook
-from base import db,logger,app
-from models.ProductModel import Product
-from models import ProductTypeModel,CategoryModel
+from project import db,logger,app
+from project.models.ProductModel import Product
+from project.models import ProductTypeModel,CategoryModel
 from flask import url_for
 import os
 

@@ -1,6 +1,6 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
-from models.ProductTypeModel import *
-from base import db,logger
+from project.models.ProductTypeModel import *
+from project import db,logger
 import traceback
 
 pv = Blueprint('ProductType','Producttype',url_prefix="/producttype")

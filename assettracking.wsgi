@@ -2,10 +2,12 @@
 
 import logging
 import sys
+import os
 logging.basicConfig(stream=sys.stderr)
 print("Version", sys.version)
-sys.path.insert(0, '/var/www/apps/assettracking/venv/lib/python3.8/site-packages')
-sys.path.insert(0, '/var/www/apps/assettracking')
 print(sys.path)
-from base import app as application
-application.secret_key = 'abc123'
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
+sys.path.append(0, '/var/www/assettracking/')
+from .project import create_app
+app = create_app()#pplication.secret_key = 'abc123'

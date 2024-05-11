@@ -2,7 +2,7 @@ from flask import render_template,Blueprint
 
 from project.models import ProductTypeModel,CategoryModel,LocaterModel
 
-nav = Blueprint("navigation",__name__)
+nav = Blueprint("navigation",__name__, url_prefix="/")
 
 ################## Navigations routes ##################
 @nav.route('/')

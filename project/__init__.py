@@ -11,18 +11,16 @@ from config import DevelopmentConfig
 db = SQLAlchemy()
 logger = None
 
-
-
 def create_app():
     #Initialize app
     app = Flask(__name__, instance_relative_config=True)
 
     ################### Logger ###########################
     logging.basicConfig(level=logging.DEBUG)
-    #assettracking_handler = logging.FileHandler(filename="/var/www/assettracking/logs/assettracking.log")
-    #app.logger.setLevel(logging.DEBUG)
-    #app.logger.removeHandler(default_handler)
-    #app.logger.addHandler(assettracking_handler)
+    assettracking_handler = logging.FileHandler(filename="/var/www/assettracking/logs/assettracking.log")
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.removeHandler(default_handler)
+    app.logger.addHandler(assettracking_handler)
     logger = app.logger
     logger.info("Application has been initialized....")
     ######################################################

@@ -7,7 +7,10 @@ sys.path.append('/home/hlkubavat/apps/assettracking/venv/lib/python3.8/site-pack
 sys.path.append('/home/hlkubavat/apps/assettracking')
 from config import DevelopmentConfig
 from project.extention import db
+from dotenv import load_dotenv
+load_dotenv()
 logger = logging.getLogger(__name__)
+
 
 def create_app():
     #Initialize app

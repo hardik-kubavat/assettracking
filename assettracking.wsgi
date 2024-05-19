@@ -11,7 +11,10 @@ sys.path.insert(0, '/var/www/assettracking/')
 #    exec(file_.read(), dict(__file__=activate_this))
 from dotenv import load_dotenv
 print("Loading Environemnts aaaset")
-load_dotenv()
+if load_dotenv():
+    print("Loaded Successfully")
+else:
+    print("Not required to load")
 from project import create_app 
 application = create_app()
 

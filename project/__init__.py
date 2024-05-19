@@ -9,6 +9,7 @@ from config import DevelopmentConfig
 from project.extention import db
 from dotenv import load_dotenv
 load_dotenv()
+logging.basicConfig(filename='/var/www/assettracking/logs/application_log.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

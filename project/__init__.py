@@ -13,7 +13,6 @@ print("Loading Environments done")
 logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-logger.info("Application initialized "+os.getenv("DB_URI") )
 def create_app():
     #Initialize app
     app = Flask(__name__, instance_relative_config=True)

@@ -12,7 +12,7 @@ load_dotenv()
 logging.basicConfig(filename='/var/www/assettracking/logs/application_log.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
+logger.info("Application initialized", os.getenv('DB_URI'))
 def create_app():
     #Initialize app
     app = Flask(__name__, instance_relative_config=True)

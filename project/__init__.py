@@ -9,8 +9,7 @@ from config import DevelopmentConfig
 from project.extention import db
 from dotenv import load_dotenv
 load_dotenv()
-print("Loading Environments done")
-logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO)
+logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s',)
 logger = logging.getLogger(__name__)
 
 def create_app():

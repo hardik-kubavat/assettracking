@@ -12,9 +12,9 @@ sys.path.insert(0, '/var/www/assettracking/')
 from dotenv import load_dotenv
 print("Loading Environemnts aaaset")
 if load_dotenv(dotenv_path="/var/www/assettracking/.env"):
-    print("Loaded Successfully")
+    print("Envinment are loaded successfully")
 else:
-    print("Not loading")
+    print("Error in loading environment variable from .env file. Please check path.")
 from project import create_app 
 application = create_app()
 

@@ -9,7 +9,11 @@ from config import DevelopmentConfig
 from project.extention import db
 from dotenv import load_dotenv
 print("Loading Environemnts")
-load_dotenv(dotenv_path='/var/www/assettracking/')
+if load_dotenv():
+    print("Loaded Successfully")
+else:
+    print("Not Loaded at all")
+print("Loading Environments done")
 logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO)
 logger = logging.getLogger(__name__)
 

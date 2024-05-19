@@ -10,10 +10,10 @@ from project.extention import db
 from dotenv import load_dotenv
 print("Loading Environemnts")
 load_dotenv(dotenv_path='/var/www/assettracking/')
-logging.basicConfig(filename='/var/www/assettracking/logs/application_log.log', level=logging.INFO)
+logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-logger.info("Application initialized", os.getenv('DB_URI'))
+logger.info("Application initialized "+os.getenv("DB_URI") )
 def create_app():
     #Initialize app
     app = Flask(__name__, instance_relative_config=True)

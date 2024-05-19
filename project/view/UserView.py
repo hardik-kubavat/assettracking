@@ -1,6 +1,7 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
 from project.models.UserModel import User
-from project import db,logger
+from project import logger
+from project.extention import db
 import traceback
 
 uv = Blueprint('user','user',url_prefix="/user")

@@ -1,11 +1,9 @@
 import os,traceback,sys
 
-from flask import Flask, render_template,make_response
-from flask.logging import default_handler
+from flask import make_response
 from flask_sqlalchemy import SQLAlchemy
-from config import DevelopmentConfig
-import logging
-from project import db, app
+from project.extention import db
+from project import logger
 
 
 ##################### Routes #########################

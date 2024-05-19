@@ -1,6 +1,7 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for,send_file
 from project.models.ServiceCallModel import ServiceCall
-from project import db,logger
+from project import logger
+from project.extention import db
 from import_products import import_products
 
 sv = Blueprint('servicecall','servicecall',url_prefix="/servicecalls")

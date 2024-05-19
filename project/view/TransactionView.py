@@ -1,6 +1,7 @@
 from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for,send_file
 from project.models.TransactionModel import Transaction
-from project import db,logger
+from project import logger
+from project.extention import db
 from project.models import TransactionModel,ProductModel
 
 tv = Blueprint('transaction','transaction',url_prefix="/transaction")

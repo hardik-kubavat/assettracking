@@ -1,5 +1,5 @@
 from sqlalchemy.sql.expression import asc
-from project import db,logger
+from project.extention import db
 from sqlalchemy import event,desc
 from datetime import datetime
 from project.models.ProductModel import Product
@@ -48,9 +48,9 @@ class Transaction(db.Model):
 #Bind adter insert event
 @event.listens_for(Transaction,"after_insert")
 def update_locater_in_product(mapper, connection, target):
-    logger.debug("In After insert method... enjoy")
-    logger.debug("Target Product ID : {}".format(target.product_id))
-    logger.debug("Target Locater ID : {}".format(target.locater_id))
+    #logger.debug("In After insert method... enjoy")
+    #logger.debug("Target Product ID : {}".format(target.product_id))
+    #logger.debug("Target Locater ID : {}".format(target.locater_id))
     product = Product.__table__
     connection.execute(product.update().where(Product.id==target.product_id).values(currentlocater_id=target.locater_id))
     

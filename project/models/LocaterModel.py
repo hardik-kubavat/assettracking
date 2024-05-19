@@ -1,4 +1,4 @@
-from project import db
+from project.extention import db
 from datetime import datetime
 
 #Users

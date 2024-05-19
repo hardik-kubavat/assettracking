@@ -1,4 +1,4 @@
-from project import db
+from project.extention import db
 from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy_utils import PasswordType
 from datetime import datetime

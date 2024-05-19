@@ -1,4 +1,4 @@
-from project import db
+from project.extention import db
 from sqlalchemy import desc
 from datetime import datetime
 from project.models.ProductModel import Product

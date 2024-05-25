@@ -1,4 +1,4 @@
-from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for
+from flask import Blueprint,request, make_response, jsonify,redirect,url_for
 from project.models.ProductTypeModel import *
 from project import logger
 from project.extention import db

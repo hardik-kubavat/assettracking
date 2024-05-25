@@ -1,6 +1,6 @@
 import os
 import glob
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, render_template
 from datetime import datetime
 
 comv = Blueprint('Common','Common',url_prefix="/utils")

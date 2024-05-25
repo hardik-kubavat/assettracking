@@ -1,9 +1,9 @@
-from flask import Blueprint,request,render_template, make_response, jsonify,redirect,url_for,send_file
+from flask import Blueprint,request, make_response, jsonify,redirect,url_for,send_file
 from project.models.ProductModel import Product
 from project import logger
 from project.extention import db
 from import_products import import_products
-from project.models import ProductModel
+from project.models import ProductModel, LocaterModel
 import os
 
 pv = Blueprint('product','product',url_prefix="/product")
@@ -68,6 +68,13 @@ def upload_bulk_products():
 @pv.route('/',methods=["GET"])
 def get_all_products():
     return jsonify(data = [ i.serialize for i in Product.query.all()])
+
+@pv.route('/hq',methods=["GET"])
+def get_all_hq_products():
+    logger.info("In headquarter")
+    products = Product.query.join(LocaterModel.Locater).filter(LocaterModel.Locater.ishq == True).all()
+    print(len(products))
+    return jsonify(data = [ i.serialize for i in products])
 
 @pv.route('/autocomplete',methods=["GET"])
 def get_suggestions():

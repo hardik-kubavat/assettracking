@@ -6,3 +6,4 @@ passlib
 openpyxl
 flask_weasyprint
 python-dotenv
+flask-migrate

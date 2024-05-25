@@ -1,27 +1,7 @@
 function notifySuccess(msg) {
-    $.notify({
-        // options
-        message: msg
-    }, {
-        // settings
-        type: 'success',
-        placement: {
-            from: "top",
-            align: "center"
-        },
-    });
+    toastr.success(msg);
 }
 
 function notifyFailure(msg) {
-    $.notify({
-        // options
-        message: msg
-    }, {
-        // settings
-        type: 'danger',
-        placement: {
-            from: "top",
-            align: "right"
-        },
-    });
+    toastr.error(msg)    
 }

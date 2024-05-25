@@ -1,28 +1,33 @@
-from flask import render_template,Blueprint
+from flask import render_template,Blueprint,make_response
 
 from project.models import ProductTypeModel,CategoryModel,LocaterModel
+from project.extention import db
 
 nav = Blueprint("navigation",__name__, url_prefix="/")
 
 ################## Navigations routes ##################
 @nav.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('asset.html', producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
 
 
 @nav.route('/category')
 def category():
-    return render_template('category.html',producttypes=ProductTypeModel.getAll())
+    return render_template('category_new.html',producttypes=ProductTypeModel.getAll())
 
-
+#TOBEREMOVED
 @nav.route('/product')
 def product():
-    return render_template('product.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
+    return render_template('asset.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
+
+@nav.route('/asset')
+def asset():
+    return render_template('asset.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
 
 
 @nav.route('/locater')
 def locater():
-    return render_template('locater.html')
+    return render_template('locater_new.html')
 
 @nav.route('/user')
 def user():
@@ -42,8 +47,18 @@ def reports():
 
 @nav.route('/producttype')
 def producttype():
-    return render_template('producttype.html')
+    return render_template('producttype_new.html')
 
 @nav.route('/servicecall')
 def servicecall():
     return render_template('servicecall.html')
+
+@nav.route('/createdb')
+def createdb():
+    try:
+        db.create_all()
+        db.session.commit()
+    except:
+        print("Error in creating database")
+        return make_response("500")
+    return make_response("200")

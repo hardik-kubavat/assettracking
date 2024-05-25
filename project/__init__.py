@@ -2,11 +2,12 @@ import os,sys
 
 from flask import Flask, render_template,make_response
 from flask.logging import default_handler
+from flask_migrate import Migrate
 import logging
 sys.path.append('/home/hlkubavat/apps/assettracking/venv/lib/python3.8/site-packages')
 sys.path.append('/home/hlkubavat/apps/assettracking')
 from config import DevelopmentConfig
-from project.extention import db
+from project.extention import db, migrate
 from dotenv import load_dotenv
 load_dotenv()
 logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s',)
@@ -24,6 +25,7 @@ def create_app():
     app.config.from_object(DevelopmentConfig)    
     #Initialized Database
     db.init_app(app)
+    migrate.init_app(app, db)
 
     try:
         os.makedirs(app.instance_path)

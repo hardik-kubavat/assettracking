@@ -2,7 +2,7 @@ from sqlalchemy.sql.expression import desc
 from project.extention import db
 from constants import Status
 from datetime import datetime
-
+from sqlalchemy.sql import text
 # Models
 from . import ProductTypeModel,CategoryModel
 
@@ -100,7 +100,7 @@ class Product(db.Model):
         self.currentlocater_id = locater_id
     
 def getSuggestions(term):
-    result = db.session.execute("SELECT identification from product where identification like '%"+term+"%' UNION SELECT srno from product where srno like '%"+term+"%' LIMIT 10").fetchall()
+    result = db.session.execute(text("SELECT identification from product where identification like '%"+term+"%' UNION SELECT srno from product where srno like '%"+term+"%' LIMIT 10")).fetchall()
     suggestions = []
     if len(result) == 0:
         suggestions.append("No Result")

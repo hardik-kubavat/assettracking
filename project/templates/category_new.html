@@ -1,0 +1,186 @@
+{% extends "new_base.html" %} {% block content %}
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <h3 class="col-6">Category</h3>
+                <div class="col-6">
+                    <button type="button" class="btn btn-block btn-info col-2 float-right" data-toggle="modal" href="#createcategory" role="button" data-target="#categorymodal"> Create </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="categorytable" class="table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Product Type</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+        
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="categorymodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categorymodaltitle">Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryform">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" name="category_id" id="category_id"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <select class="form-control form-control-sm bg-white" name="producttype" id="product_type_id" required>
+                                <option value="volvo" selected disabled>Select Product Type</option>
+                                {% for producttype in producttypes %}
+                                <option value={{ producttype.id}}>{{ producttype.name }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="text" name="name" id="name" class="form-control form-control-sm bg-white" placeholder="Category name" required />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <input type="textarea" name="description" id="description" class="form-control form-control-sm bg-white" placeholder="Description" />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col text-right">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    
+    $("#categoryform").submit(function(e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+        $.ajax({
+            method: "post",
+            url: "category/add",
+            data: formData,
+            success: function(data) {
+                $("#categorymodal").modal('hide');
+                $("#categoryform").trigger("reset");
+                notifySuccess("Record Saved Successfully");
+                $('#categorytable').DataTable().ajax.reload();
+                console.log(data)
+            },
+            error: function(data) {
+                console.log(data)
+                notifyFailure("There is an error while saving record." + data);
+            }
+        });
+    });
+    function onEdit(category_id) {
+        alert("Onedit");
+        $.ajax({
+            method: "get",
+            url: "category/get/" + category_id,
+            success: function(data) {
+                $("#name").val(data.name)
+                $("#description").val(data.description)
+                $("#category_id").val(data.id)
+                $("#product_type_id").val(data.product_type_id)
+                $("#categorymodal").modal('show');
+            },
+            error: function() {
+                notifyFailure("There is an error while processing. Contact Administrator.");
+            }
+        })
+    }
+    $('#categorymodal').on('hidden.bs.modal', function() {
+        $("#categoryform").trigger("reset");
+    });
+    $("#categorymodal").on('shown.bs.modal', function() {
+        $('#product_type_id').trigger("focus");
+    });
+    
+    
+    $(document).ready(function() {
+        groupColumn = 0;
+        var table = $('#categorytable').DataTable({
+            responsive: true,
+            dom: '<"container-fluid"<"row"<"col"l><"col"B><"col"f>>>rtip',
+            "buttons": ["excel", "pdf"],
+            columnDefs: [{
+                targets: "_all",
+                className: 'text-center'
+            }, {
+                targets: groupColumn,
+                visible: false
+            }],
+            "drawCallback": function(settings) {
+                var api = this.api();
+                var rows = api.rows({
+                    page: 'current'
+                }).nodes();
+                var last = null;
+
+                api.column(groupColumn, {
+                    page: 'current'
+                }).data().each(function(group, i) {
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group text-center"><td colspan="5"><span clas="badge badge-success">Product Type - ' + group + '</span></td></tr>'
+                        );
+
+                        last = group;
+                    }
+                });
+            },
+            "ajax": 'category/get_data',
+            "columns": [{
+                "data": "product_type"
+            }, {
+                "data": "name"
+            }, {
+                "data": "description"
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=' + data + ' class="badge badge-success" href="#' + data + ' " onclick="onEdit(' + data + ')">Edit</a>';
+                }
+            }, {
+                "data": "id",
+                render: function(data, type, row) {
+                    return '<a id=categoryid_' + data + ' class="badge badge-danger" href="category/delete/' + data + '">Delete</a>';
+                }
+            }],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+        });
+        $('#categorytable tbody').on('click', 'tr.group', function() {
+            var currentOrder = table.order()[0];
+            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                table.order([groupColumn, 'desc']).draw();
+            } else {
+                table.order([groupColumn, 'asc']).draw();
+            }
+        });
+    });
+</script>
+{% endblock %}

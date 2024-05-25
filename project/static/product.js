@@ -1,17 +1,3 @@
-function format(d) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" class="prouctdetail">' +
-        '<tr>' +
-        '<th>Owner</td>' +
-        '<th>Remarks</td>' +
-        '</tr>' +
-        '<tr>' +
-        '<td>' + d.ownertext + '</td>' +
-        '<td>' + d.remarks + '</td>' +
-        '</tr>' +
-        '</table>';
-}
-
 function populateCategoryByProductType(product_type_id, category_id) {
     $("#category_id").children('option:not(:first)').remove();
     $.ajax({
@@ -24,7 +10,7 @@ function populateCategoryByProductType(product_type_id, category_id) {
             $("#category_id").val(category_id);
         },
         error: function() {
-            $("#error").show();
+            notifyFailure("Error while fetching category based on the Product type. Please contact administrator");
         }
     })
 }
@@ -100,18 +86,35 @@ function onShowHistory(product_id) {
 
 }
 
-
-
-
 //When Documents loads intialize the products datatable
 $(document).ready(function() {
+    $url = 'product/'
+    if ($page.includes("asset")){
+        $url = 'product/hq'
+    }
     var table = $('#producttable').DataTable({
-
+        language: {
+            searchBuilder: {
+                title: {
+                    0: "Filter",
+                    _: "Filter (%d)"
+                },
+                add:  "Search Criteria",
+                data: 'Column',
+            }
+        },
+        layout:{
+            topStart: 'searchBuilder'
+        },
+        responsive: true,
+        //dom: '<"container-fluid"<"row"<"col"l><"col"B><"col"f>>>rtip',
+        dom: '<"container-fluid"<"row"Q><"row"<"col"l><"col"B><"col"f>>>rtip',
+        "buttons": ["excel", "pdf"],
         columnDefs: [
             { targets: "_all", className: 'text-center' },
             { "sortable": false, "targets": 0 }
         ],
-        "ajax": 'product/',
+        "ajax": $url,
         "columns": [{
                 "className": 'details-control',
                 "orderable": false,
@@ -128,12 +131,16 @@ $(document).ready(function() {
                 "data": "status",
                 render: function(data, type, row) {
                     if (data == 'WO') {
-                        return "<img src='static/right.png'/>"
+                        return "<span class='badge badge-success'>WORKING</span>"
+                    } else if (data == 'NW'){
+                        return "<span class='badge badge-danger'>NOT WORKING</span>"
                     } else {
-                        return "<img src='static/wrong.png'/>"
+                        return "<span class='badge badge-warning'>E-WASTE</span>"
                     }
                 }
             },
+            {"data": "ownertext"},
+            {"data": "remarks"},
             {
                 "data": "id",
                 render: function(data, type, row) {
@@ -155,8 +162,8 @@ $(document).ready(function() {
             [5, 'asc'],
         ],
         "lengthMenu": [
-            [50, 100, -1],
-            [50, 100, "All"]
+            [100, -1],
+            [100, "All"]
         ]
     });
 
@@ -176,7 +183,8 @@ $(document).ready(function() {
 
     //When product modal's hide events fire reset form
     $('#productmodal').on('hidden.bs.modal', function() {
-        $("#productform").trigger("reset");
+        $("#productform")[0].reset();
+        $('#product_id').val('')
     });
 
     $("#allocatemodal").on('shown.bs.modal', function() {
@@ -214,24 +222,6 @@ $(document).ready(function() {
                 console.error(data);
             }
         })
-    });
-
-
-    //Datatables Related code
-    // Add event listener for opening and closing details inside the table for product details
-    $('#producttable tbody').on('click', 'td.details-control', function() {
-        var tr = $(this).closest('tr');
-        var row = table.row(tr);
-
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        } else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-        }
     });
 
     $("#productuploadform").submit(function(e) {

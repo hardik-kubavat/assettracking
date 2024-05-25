@@ -1,6 +1,6 @@
 from flask import render_template,Blueprint,make_response
 
-from project.models import ProductTypeModel,CategoryModel,LocaterModel
+from project.models import ProductTypeModel,CategoryModel,LocaterModel,ProductModel
 from project.extention import db
 
 nav = Blueprint("navigation",__name__, url_prefix="/")
@@ -8,7 +8,7 @@ nav = Blueprint("navigation",__name__, url_prefix="/")
 ################## Navigations routes ##################
 @nav.route('/')
 def index():
-    return render_template('asset.html', producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
+    return render_template('dashboard.html', desktop_data = ProductModel.getDesktopDashboardHQ(), printer_data = ProductModel.getPrinterDashboardHQ(), monitor_data = ProductModel.getMonitorDashboardHQ())
 
 
 @nav.route('/category')

@@ -58,8 +58,6 @@ def create_app():
     #Trascation/Allocation view
     from project.view.ReportView import rv
     app.register_blueprint(rv)
-    from project.view.ServiceCallView import sv
-    app.register_blueprint(sv)
     from project.view.FileView import comv
     app.register_blueprint(comv)
     ################### Blueprints #########################

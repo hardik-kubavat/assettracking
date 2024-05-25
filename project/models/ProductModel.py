@@ -3,6 +3,7 @@ from project.extention import db
 from constants import Status
 from datetime import datetime
 from sqlalchemy.sql import text
+import os
 # Models
 from . import ProductTypeModel,CategoryModel
 
@@ -120,3 +121,21 @@ def getNotWorkingProducts():
 
 def getSummeryByCategory(query):
     return db.session.query(CategoryModel.Category.name,db.func.count(Product.srno)).join(ProductTypeModel.ProductType,Product.product_type_id==ProductTypeModel.ProductType.id).join(CategoryModel.Category,Product.category_id==CategoryModel.Category.id).group_by(CategoryModel.Category.name).all()
+
+def getDesktopDashboardHQ():
+    query = "SELECT name,sum(working) as working ,sum(not_working) as not_working,sum(ewaste) as ewaste FROM (SELECT c.name, CASE WHEN p.status =  'WO' THEN count(*) ELSE 0 END as working, CASE WHEN p.status='NW' THEN count(*) ELSE 0 END as not_working,CASE WHEN p.status =  'EW' THEN count(*) ELSE 0 END as ewaste FROM product p INNER JOIN category c ON c.id = p.category_id INNER JOIN locater l ON l.id = p.currentlocater_id INNER JOIN product_type pt on pt.id = p.product_type_id WHERE l.name in ("+os.getenv('D1_LOCATER')+") and l.ishq='true' and pt.name='"+os.getenv('D1_DESKTOP_PRODUCT_TYPE_NAME')+"' group by c.name, p.status) as inner_query GROUP BY name"
+    print(query)
+    result = db.session.execute(text(query)).fetchall()
+    return result
+
+def getPrinterDashboardHQ():
+    query = "SELECT name,sum(working) as working ,sum(not_working) as not_working,sum(ewaste) as ewaste FROM (SELECT c.name, CASE WHEN p.status =  'WO' THEN count(*) ELSE 0 END as working, CASE WHEN p.status='NW' THEN count(*) ELSE 0 END as not_working,CASE WHEN p.status =  'EW' THEN count(*) ELSE 0 END as ewaste FROM product p INNER JOIN category c ON c.id = p.category_id INNER JOIN locater l ON l.id = p.currentlocater_id INNER JOIN product_type pt on pt.id = p.product_type_id WHERE l.name in ("+os.getenv('D1_LOCATER')+") and l.ishq='true' and pt.name='"+os.getenv('D1_PRINTER_PRODUCT_TYPE_NAME')+"' group by c.name, p.status) as inner_query GROUP BY name"
+    print(query)
+    result = db.session.execute(text(query)).fetchall()
+    return result
+    
+def getMonitorDashboardHQ():
+    query = "SELECT name,sum(working) as working ,sum(not_working) as not_working,sum(ewaste) as ewaste FROM (SELECT c.name, CASE WHEN p.status =  'WO' THEN count(*) ELSE 0 END as working, CASE WHEN p.status='NW' THEN count(*) ELSE 0 END as not_working,CASE WHEN p.status =  'EW' THEN count(*) ELSE 0 END as ewaste FROM product p INNER JOIN category c ON c.id = p.category_id INNER JOIN locater l ON l.id = p.currentlocater_id INNER JOIN product_type pt on pt.id = p.product_type_id WHERE l.name in ("+os.getenv('D1_LOCATER')+") and l.ishq='true' and pt.name='"+os.getenv('D1_MONITOR_PRODUCT_TYPE_NAME')+"' group by c.name, p.status) as inner_query GROUP BY name"
+    print(query)
+    result = db.session.execute(text(query)).fetchall()
+    return result

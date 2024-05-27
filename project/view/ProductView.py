@@ -4,41 +4,43 @@ from project import logger
 from project.extention import db
 from import_products import import_products
 from project.models import ProductModel, LocaterModel
+from flask import current_app as app
 import os
 
 pv = Blueprint('product','product',url_prefix="/product")
 
 @pv.route('/add',methods=['GET','POST'])
 def addorupdate():
-    if request.form and request.form.get('product_id') == '':
-        logger.debug("Product add operation is executing...")
-        logger.debug(str(request.form))
-        try:
-            product = Product(product_type_id=request.form.get('producttype'),category_id=request.form.get('category'),srno=request.form.get('srno'),identification=request.form.get('identification'),status=request.form.get('status'),owner=request.form.get('owner'),remarks=request.form.get('remarks'))
-            db.session.add(product)
-            db.session.commit()
-            logger.debug("Product added successfully. {0} ".format(product.id))
-            return make_response("success"),200
-        except Exception as e:
-            logger.error(str(e))
-            return make_response(str(e)),500
-    else:
-        logger.debug("Product {} - Update operation is executing... ".format(request.form.get('product_id')))
-        try:
-            product = Product.query.filter_by(id=request.form.get('product_id')).first()
-            product.setProductTypeID(request.form.get('producttype'))
-            product.setCategoryID(request.form.get('category'))
-            product.setSrno(request.form.get('srno'))
-            product.setIdentification(request.form.get('identification'))
-            product.setStatus(request.form.get('status'))
-            product.setOwner(request.form.get('owner'))
-            product.setRemarks(request.form.get('remarks'))
-            db.session.commit()
-            logger.debug("Product {} - Updated successfully...".format(request.form.get('product_id')))
-            return make_response("success"),200
-        except Exception as e:
-            logger.debug(str(e))
-            return make_response(str(e)),500
+    if request.form:
+        if request.form.get('product_id') == '':
+            logger.debug("Product add operation is executing...")
+            logger.debug(str(request.form))
+            try:
+                product = Product(product_type_id=request.form.get('producttype'),category_id=request.form.get('category'),srno=request.form.get('srno'),identification=request.form.get('identification'),status=request.form.get('status'),owner=request.form.get('owner'),remarks=request.form.get('remarks'))
+                db.session.add(product)
+                db.session.commit()
+                logger.debug("Product added successfully. {0} ".format(product.id))
+                return make_response("success"),200
+            except Exception as e:
+                logger.error(str(e))
+                return make_response(str(e)),500
+        else:
+            logger.debug("Product {} - Update operation is executing... ".format(request.form.get('product_id')))
+            try:
+                product = Product.query.filter_by(id=request.form.get('product_id')).first()
+                product.setProductTypeID(request.form.get('producttype'))
+                product.setCategoryID(request.form.get('category'))
+                product.setSrno(request.form.get('srno'))
+                product.setIdentification(request.form.get('identification'))
+                product.setStatus(request.form.get('status'))
+                product.setOwner(request.form.get('owner'))
+                product.setRemarks(request.form.get('remarks'))
+                db.session.commit()
+                logger.debug("Product {} - Updated successfully...".format(request.form.get('product_id')))
+                return make_response("success"),200
+            except Exception as e:
+                logger.debug(str(e))
+                return make_response(str(e)),500
     logger.debug("Add/Update data request is not recevied as form. Please Troubleshoot")
     return make_response("There is an error... Please check logs"),500
 

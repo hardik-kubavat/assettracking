@@ -8,7 +8,11 @@ nav = Blueprint("navigation",__name__, url_prefix="/")
 ################## Navigations routes ##################
 @nav.route('/')
 def index():
-    return render_template('dashboard.html', desktop_data = ProductModel.getDesktopDashboardHQ(), printer_data = ProductModel.getPrinterDashboardHQ(), monitor_data = ProductModel.getMonitorDashboardHQ())
+    hq_ptype_dash_data = dict()
+    for p in ProductTypeModel.getAll():
+        hq_ptype_dash_data[p.name] = ProductModel.getProductTypeDashboardHQ(p.id)
+    print(hq_ptype_dash_data) 
+    return render_template('dashboard.html', desktop_data = ProductModel.getDesktopDashboardHQ(), printer_data = ProductModel.getPrinterDashboardHQ(), monitor_data = ProductModel.getMonitorDashboardHQ(), hq_ptype_dash_data=hq_ptype_dash_data)
 
 
 @nav.route('/category')

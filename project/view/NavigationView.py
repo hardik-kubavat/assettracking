@@ -11,7 +11,15 @@ def index():
     hq_ptype_dash_data = dict()
     for p in ProductTypeModel.getAll():
         hq_ptype_dash_data[p.name] = ProductModel.getProductTypeDashboardHQ(p.id)
-    print(hq_ptype_dash_data) 
+    return render_template('dashboard.html', desktop_data = ProductModel.getDesktopDashboardHQ(), printer_data = ProductModel.getPrinterDashboardHQ(), monitor_data = ProductModel.getMonitorDashboardHQ(), hq_ptype_dash_data=hq_ptype_dash_data)
+
+@nav.route('/dashboard')
+def dashboard():
+    hq_ptype_dash_data = dict()
+    for p in ProductTypeModel.getAll():
+        result = ProductModel.getProductTypeDashboardHQ(p.id)
+        if result:
+            hq_ptype_dash_data[p.name] = result
     return render_template('dashboard.html', desktop_data = ProductModel.getDesktopDashboardHQ(), printer_data = ProductModel.getPrinterDashboardHQ(), monitor_data = ProductModel.getMonitorDashboardHQ(), hq_ptype_dash_data=hq_ptype_dash_data)
 
 
@@ -56,13 +64,3 @@ def producttype():
 @nav.route('/servicecall')
 def servicecall():
     return render_template('servicecall.html')
-
-@nav.route('/createdb')
-def createdb():
-    try:
-        db.create_all()
-        db.session.commit()
-    except:
-        print("Error in creating database")
-        return make_response("500")
-    return make_response("200")

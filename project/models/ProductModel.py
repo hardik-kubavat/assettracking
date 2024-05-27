@@ -18,7 +18,7 @@ class Product(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey(
         "category.id"), nullable=False)
     srno = db.Column(db.String(), unique=True, nullable=False)
-    identification = db.Column(db.String(), unique=True, nullable=False)
+    identification = db.Column(db.String(), nullable=False)
     status = db.Column(db.String(2), nullable=False,
                        server_default=str(Status.WORKING))
     owner = db.Column(db.String(2), nullable=False)

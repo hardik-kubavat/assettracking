@@ -83,7 +83,7 @@
 						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 						<li class="nav-item">
-							<a href="/" class="nav-link">
+							<a href="{{ url_for('navigation.dashboard') }}" class="nav-link">
 								<i class="nav-icon fa fa-desktop"></i>
 								<p>
 									Dashboard
@@ -91,7 +91,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="/asset" class="nav-link">
+							<a href="{{ url_for('navigation.asset') }}" class="nav-link">
 								<i class="nav-icon fa fa-database"></i>
 								<p>
 									HQ - Asset
@@ -99,7 +99,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="/allocation" class="nav-link">
+							<a href="{{ url_for('navigation.allocation') }}" class="nav-link">
 								<i class="nav-icon fa fa-list-alt"></i>
 								<p>
 									Allocation
@@ -116,26 +116,25 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<a href="/product
-									" class="nav-link">
+									<a href="{{ url_for('navigation.product') }}" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Asset</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/producttype" class="nav-link">
+									<a href="{{ url_for('navigation.producttype') }}" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Product Type</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/category" class="nav-link">
+									<a href="{{ url_for('navigation.category') }}" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Category</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/locater" class="nav-link">
+									<a href="{{ url_for('navigation.locater') }}" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Locater</p>
 									</a>
@@ -158,25 +157,25 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<a href="/report/producttypewise" class="nav-link">
+									<a href="report/producttypewise" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Product Type Wise</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/report/categorywise" class="nav-link">
+									<a href="report/categorywise" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Category Wise</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/report/locaterwise" class="nav-link">
+									<a href="report/locaterwise" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Locater Wise</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a href="/report/notworkingasset" class="nav-link">
+									<a href="report/notworkingasset" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>Not Working Assets</p>
 									</a>

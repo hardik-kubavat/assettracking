@@ -15,6 +15,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Is HQ?</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -133,6 +134,15 @@
                 "data": "name"
             }, {
                 "data": "description"
+            }, {
+                "data": "ishq",
+                render: function(data, type, row){
+                    if(data == true){
+                        return 'YES'
+                    }else{
+                        return 'NO'
+                    }
+                }
             }, {
                 "data": "id",
                 render: function (data, type, row) {

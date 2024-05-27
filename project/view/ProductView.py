@@ -75,7 +75,6 @@ def get_all_products():
 def get_all_hq_products():
     logger.info("In headquarter")
     products = Product.query.join(LocaterModel.Locater).filter(LocaterModel.Locater.ishq == True).all()
-    print(len(products))
     return jsonify(data = [ i.serialize for i in products])
 
 @pv.route('/autocomplete',methods=["GET"])

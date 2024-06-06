@@ -41,7 +41,7 @@ class Locater(db.Model):
         self.description = description
     
 def getAll():
-    return Locater.query.all()
+    return Locater.query.order_by(Locater.name).all()
 
 def getById(locater_id):
     return Locater.query.filter_by(id=locater_id).first()

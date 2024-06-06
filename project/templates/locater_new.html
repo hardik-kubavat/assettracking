@@ -76,7 +76,6 @@
     $("#locaterform").submit(function (e) {
         e.preventDefault();
         let formData = $(this).serialize();
-        alert(formData)
         $.ajax({
             method: "post",
             url: "locater/add",

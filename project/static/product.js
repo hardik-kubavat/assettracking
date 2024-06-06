@@ -144,13 +144,18 @@ $(document).ready(function() {
             {
                 "data": "id",
                 render: function(data, type, row) {
-                    return '<select>' +
-                        '<option onclick="onEdit(' + data + ')"> Edit</option>' +
-                        '<option onclick="onAllocate(' + data + ',\'' + row.srno + '\',' + row.currentlocater_id + ')"> Allocate</option>' +
-                        '<option onclick="onReplace(' + data + ',\'' + row.srno + '\',\'' + row.currentlocation + '\')"> Replace</option>' +
-                        '<option onclick="onDelete(' + data + ')"> Delete</option>' +
-                        '<option onclick="onShowHistory(' + data + ')"> History</option>' +
-                        '</select>'
+                    return '<div class="btn-group">'+
+                    '<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
+                      'Action'+
+                    '</button>'+
+                    '<div class="dropdown-menu">'+
+                    '<a class="dropdown-item" href="#" onClick="onEdit(' + data + ')">Edit</a>'+
+                    '<a class="dropdown-item" href="#" onclick="onAllocate(' + data + ',\'' + row.srno + '\',' + row.currentlocater_id + ')">Allocate</a>'+
+                    '<a class="dropdown-item" href="#" onclick="onReplace(' + data + ',\'' + row.srno + '\',\'' + row.currentlocation + '\')">Replace</a>'+
+                    '<a class="dropdown-item" href="#" onclick="onDelete(' + data + ')">Delete</a>'+
+                    '<a class="dropdown-item" href="#" onclick="onShowHistory(' + data + ')">History</a>'+
+                    '</div>'+
+                    '</div>'
                 }
             }
         ],

@@ -88,9 +88,9 @@ function onShowHistory(product_id) {
 
 //When Documents loads intialize the products datatable
 $(document).ready(function() {
-    $url = 'product/'
-    if ($page.includes("asset")){
-        $url = 'product/hq'
+    $url = 'product/hq'
+    if ($page.includes("product")){
+        $url = 'product/'
     }
     var table = $('#producttable').DataTable({
         language: {

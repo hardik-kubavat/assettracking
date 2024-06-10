@@ -197,7 +197,9 @@ $(document).ready(function() {
     });
 
     $('#allocatemodal').on('hidden.bs.modal', function() {
-        $("#allocateform").trigger("reset");
+        //$("#allocateform").trigger("reset");
+        $("#al_product_id").val("");
+        $("#al_srno").val("");
         $("#al_locater_id").children().show();
     });
 

@@ -1,0 +1,48 @@
+{% extends "new_base.html" %}
+{% block content %}
+<style>
+    .card-header {
+        padding: 0.2rem 1.25rem;
+        !important
+    }
+</style>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header border-transparent bg-yellow">
+                <h3 class="card-title">Backup Status</h3>
+                <h3 class="card-title float-right">This page refreshed at {{ current_time }}</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                            <tr>
+                                <th>Taluka</th>
+                                <th>Last Synched</th>
+                                <th>File Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for status in backup_status %}
+                            <tr>
+                                <td>{{ status }}</td>
+                                <td>{{ backup_status[status][0]}}</td>
+                                <td>{{ backup_status[status][2]}}</td>
+                                <td>
+                                    <span
+                                        class="badge {% if backup_status[status][3] == 'SUCCESS'%} badge-success {% else %} badge-danger {% endif %}">{{ backup_status[status][3]}}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

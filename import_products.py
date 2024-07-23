@@ -1,9 +1,10 @@
 #TODO - This class needs to be organized and also there should be a way to generate the log file.
 
 from openpyxl import load_workbook
-from base import db,logger,app
-from models.ProductModel import Product
-from models import ProductTypeModel,CategoryModel
+from project import logger
+from project.extention import db
+from project.models.ProductModel import Product
+from project.models import ProductTypeModel,CategoryModel
 from flask import url_for
 import os
 
@@ -12,8 +13,7 @@ def import_products(file):
     sheet = work_book.active
     logger.debug("Column {} Rows ---{}".format(sheet.max_column,sheet.max_row-1))
     load_products(sheet)
-    logger.debug(app.root_path)
-    filepath = os.path.join(app.root_path, 'logs', file.filename)
+    filepath = os.path.join('logs', file.filename)
     work_book.save(filepath)
     return filepath
     

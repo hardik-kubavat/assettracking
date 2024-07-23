@@ -1,0 +1,18 @@
+.group {
+    background: #25a486;
+}
+
+
+.group td {
+    padding: 0.1rem;
+    color: black;
+  }
+
+.ui-helper-hidden-accessible {
+    display: none !important;
+}
+
+ul.ui-autocomplete {
+    list-style: none;
+    z-index: 1150;
+}

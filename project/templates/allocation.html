@@ -1,0 +1,57 @@
+{% extends "new_base.html" %} {% block content %}
+<main role="main" class="container">
+
+    <table id="allocationtable" class="table table-hover display table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Product Type</th>
+                <th>Category</th>
+                <th>Serial No</th>
+                <th>Identification</th>
+                <th>Location</th>
+                <th>Remark</th>
+            </tr>
+        </thead>
+
+    </table>
+
+</main>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#allocationtable').DataTable({
+            responsive: true,
+            columnDefs: [{
+                targets: "_all",
+                className: 'text-center'
+            }],
+            "ajax": 'transaction',
+            "columns": [{
+                "data": "createdat"
+            }, {
+                "data": "product_type"
+            }, {
+                "data": "category",
+            }, {
+                "data": "srno",
+            }, {
+                "data": "identification",
+            }, {
+                "data": "locater",
+            }, {
+                "data": "remarks",
+            }],
+            "lengthMenu": [
+                [25, 50, -1],
+                [25, 50, "All"]
+            ],
+            "order": [
+                [0, "desc"]
+            ],
+            "deferRender": true
+
+        });
+    });
+</script>
+{% endblock %}

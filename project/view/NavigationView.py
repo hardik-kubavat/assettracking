@@ -64,3 +64,12 @@ def producttype():
 @nav.route('/servicecall')
 def servicecall():
     return render_template('servicecall.html')
+
+@nav.route('/locater_dashboard')
+def locater_dashboard():
+    locater_data = dict()
+    for l in LocaterModel.getAll():
+        result = ProductModel.getLocaterDashboard(l.id)
+        if result:
+            locater_data[l.name] = result
+    return render_template('locater_dashboard.html', locater_data=locater_data)

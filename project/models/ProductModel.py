@@ -146,3 +146,9 @@ def getProductTypeDashboardHQ(product_type_id):
     logger.info("Product Type Dashboard Query : %s" % (query))
     result = db.session.execute(text(query)).fetchall()
     return result
+
+def getLocaterDashboard(locater_id):
+    query = "SELECT pt.name, count(pt.name) FROM product p INNER JOIN product_type pt on p.product_type_id = pt.id INNER JOIN locater l on p.currentlocater_id = l.id WHERE l.id="+str(locater_id)+" AND p.status != 'EW' GROUP BY pt.name ORDER BY pt.name"
+    logger.info("Locater Dashboard Query : %s" % (query))
+    result = db.session.execute(text(query)).fetchall()
+    return result

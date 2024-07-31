@@ -36,6 +36,9 @@ def product():
 def asset():
     return render_template('asset.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
 
+@nav.route('/unallocated')
+def unallocated():
+    return render_template('unallocated.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
 
 @nav.route('/locater')
 def locater():

@@ -77,6 +77,12 @@ def get_all_hq_products():
     products = Product.query.join(LocaterModel.Locater).filter(LocaterModel.Locater.ishq == True).all()
     return jsonify(data = [ i.serialize for i in products])
 
+@pv.route('/unallocated',methods=["GET"])
+def get_all_unallocated_products():
+    logger.info("In unallocated products")
+    products = Product.query.filter(Product.currentlocater_id == None).filter(Product.status != 'EW').all()
+    return jsonify(data = [ i.serialize for i in products])
+
 @pv.route('/autocomplete',methods=["GET"])
 def get_suggestions():
     term=request.args.get("term")

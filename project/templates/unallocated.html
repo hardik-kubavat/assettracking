@@ -1,0 +1,288 @@
+{% extends "new_base.html" %} {% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <h3 class="col-6">Unallocated Assets</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="producttable" class="table table-hover display" style="width:100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th data-priority="1" class="all">Product Type</th>
+                    <th>Category</th>
+                    <th data-priority="2" class="all">Serial No.</th>
+                    <th>Identification</th>
+                    <th>Current Location</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                    <th>Remarks</th>
+                    <th data-priority="3" class="all"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="productmodal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productmodaltitle">Product</h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="error" class="alert alert-success text-center collapse" style="display: none;">
+                    There is an Error.
+                </div>
+                <form id="productform">
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="product_id" id="product_id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control form-control-sm" name="producttype" id="product_type_id"
+                                required>
+                                <option value="volvo" selected disabled>Select Product Type</option>
+                                {% for producttype in producttypes %}
+                                <option value="{{ producttype.id}}">{{ producttype.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control form-control-sm" name="category" id="category_id" required>
+                                <option value="volvo" selected disabled>Select Category</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="text" name="srno" id="srno" class="form-control form-control-sm"
+                                placeholder="Serial Number" required />
+                        </div>
+                        <div class="col">
+                            <input type="text" name="identification" id="identification"
+                                class="form-control form-control-sm" placeholder="Identification" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <select class="form-control form-control-sm" name="status" id="status" required>
+                                <option value="volvo" selected disabled>Select Product Status</option>
+                                <option value="WO">Working</option>
+                                <option value="NW">Not Working</option>
+                                <option value="EW">E-Waste</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control form-control-sm" name="owner" id="owner" required>
+                                <option value="volvo" selected disabled>Select Product Ownership</option>
+                                <option value="HC">High Court</option>
+                                <option value="EC">E-Committe</option>
+                                <option value="DC">District Court</option>
+                                <option value="CC">Civil Court</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <textarea rows="3" name="remarks" id="remarks" class="form-control form-control-sm"
+                                placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="productuploadmodal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productuploadmodaltitle">
+                    Bulk Product Upload
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="error" class="alert alert-success text-center collapse" style="display: none;">
+                    There is an Error.
+                </div>
+                <form id="productuploadform" action="product/" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <input type="file" name="products" id="products" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="allocatemodal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allocatemodaltitle">Allocation</h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="error" class="alert alert-success text-center collapse" style="display: none;">
+                    There is an Error.
+                </div>
+                <form id="allocateform">
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="product_id" id="al_product_id" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="text" name="srno" id="al_srno" class="form-control form-control-sm"
+                                placeholder="Serial Number" disabled />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <select class="form-control form-control-sm" name="locater_id" id="al_locater_id" required>
+                                <option value="" selected disabled>Select Locater</option>
+                                {% for locater in locaters %}
+                                <option value="{{ locater.id}}">{{ locater.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <textarea rows="3" name="remarks" id="al_remarks" class="form-control form-control-sm"
+                                placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="replacemodal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="replacemodaltitle">Replace</h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="error" class="alert alert-success text-center collapse" style="display: none;">
+                    There is an Error.
+                </div>
+                <form id="replaceform">
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="product_from_id" id="rp_product_from_id" />
+                            <input type="hidden" name="product_to_id" id="rp_product_to_id" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-2 text-right">
+                            <label> Serial No:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="from_srno" id="rp_from_srno" class="form-control form-control-sm"
+                                disabled />
+                        </div>
+                        <div class="col-2 text-right">
+                            <label>Locater:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="from_locater" id="rp_from_locater"
+                                class="form-control form-control-sm" disabled />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-2 text-right">
+                            <label> Serial No:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="to_srno" id="rp_to_srno" class="form-control form-control-sm"
+                                placeholder="Type to search Serial Number." required />
+                        </div>
+                        <div class="col-2 text-right">
+                            <label> Locater:</label>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="to_locater" id="rp_to_locater" class="form-control form-control-sm"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <textarea rows="3" name="remarks" id="rp_remarks" class="form-control form-control-sm"
+                                placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="historymodal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="replacemodaltitle">History</h5>
+                <button type="button" class="close" data-dismiss="modal" area-label="close">
+                    <span area-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let $page = "{{ request.url }}";
+</script>
+<script src="{{ url_for('static', filename='product.js') }}"></script>
+{% endblock %}

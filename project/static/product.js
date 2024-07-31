@@ -91,6 +91,8 @@ $(document).ready(function() {
     $url = 'product/hq'
     if ($page.includes("product")){
         $url = 'product/'
+    }else if($page.includes("unallocated")){
+        $url = 'product/unallocated'
     }
     var table = $('#producttable').DataTable({
         language: {

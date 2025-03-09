@@ -1,6 +1,6 @@
 from flask import render_template,Blueprint,make_response
 
-from project.models import ProductTypeModel,CategoryModel,LocaterModel,ProductModel
+from project.models import ProductTypeModel,CategoryModel,LocaterModel,ProductModel,PurchaseOrdersModel
 from project.extention import db
 
 nav = Blueprint("navigation",__name__, url_prefix="/")
@@ -30,7 +30,7 @@ def category():
 #TOBEREMOVED
 @nav.route('/product')
 def product():
-    return render_template('asset.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll())
+    return render_template('asset.html',producttypes=ProductTypeModel.getAll(),categories=CategoryModel.getAll(),locaters=LocaterModel.getAll(), purchase_orders=PurchaseOrdersModel.getAll())
 
 @nav.route('/asset')
 def asset():
@@ -63,6 +63,10 @@ def reports():
 @nav.route('/producttype')
 def producttype():
     return render_template('producttype_new.html')
+
+@nav.route('/purchaseorder')
+def po():
+    return render_template('purchase_order.html')
 
 @nav.route('/servicecall')
 def servicecall():

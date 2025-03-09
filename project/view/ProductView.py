@@ -16,7 +16,7 @@ def addorupdate():
             logger.debug("Product add operation is executing...")
             logger.debug(str(request.form))
             try:
-                product = Product(product_type_id=request.form.get('producttype'),category_id=request.form.get('category'),srno=request.form.get('srno'),identification=request.form.get('identification'),status=request.form.get('status'),owner=request.form.get('owner'),remarks=request.form.get('remarks'))
+                product = Product(product_type_id=request.form.get('producttype'),category_id=request.form.get('category'),srno=request.form.get('srno'),identification=request.form.get('identification'),status=request.form.get('status'),owner=request.form.get('owner'),remarks=request.form.get('remarks'), purchase_order_id=request.form.get('purchase_order_id'))
                 db.session.add(product)
                 db.session.commit()
                 logger.debug("Product added successfully. {0} ".format(product.id))
@@ -35,6 +35,7 @@ def addorupdate():
                 product.setStatus(request.form.get('status'))
                 product.setOwner(request.form.get('owner'))
                 product.setRemarks(request.form.get('remarks'))
+                product.setPurchaseOrderID(request.form.get('purchase_order_id'))
                 db.session.commit()
                 logger.debug("Product {} - Updated successfully...".format(request.form.get('product_id')))
                 return make_response("success"),200

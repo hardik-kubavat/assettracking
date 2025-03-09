@@ -1,7 +1,7 @@
 flask
 psycopg2-binary
 flask_sqlalchemy
-sqlalchemy_utils
+sqlalchemy-utils
 passlib
 openpyxl
 flask_weasyprint

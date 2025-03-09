@@ -44,6 +44,7 @@ function onEdit(product_id) {
             $("#status").val(data.status)
             $("#owner").val(data.owner)
             $("#remarks").val(data.remarks)
+            $("#purchase_order_id").val(data.purchase_order_id)
             $("#productmodal").modal('show');
         },
         error: function() {
@@ -110,7 +111,10 @@ $(document).ready(function() {
         },
         responsive: true,
         //dom: '<"container-fluid"<"row"<"col"l><"col"B><"col"f>>>rtip',
-        dom: '<"container-fluid"<"row"Q><"row"<"col"l><"col"B><"col"f>>>rtip',
+        dom: '<"row"<"col-sm-6"Q><"col-sm-1"B><"col-sm-5"f>>' +
+        '<"row"<"col-sm-12"t>>' +
+        '<"row"<"col-sm-5"i><"col-sm-7"p>>' +
+        '<"row">',
         "buttons": ["excel", "pdf"],
         columnDefs: [
             { targets: "_all", className: 'text-center' },
@@ -143,6 +147,7 @@ $(document).ready(function() {
             },
             {"data": "ownertext"},
             {"data": "remarks"},
+            {"data": "purchase_order"},
             {
                 "data": "id",
                 render: function(data, type, row) {

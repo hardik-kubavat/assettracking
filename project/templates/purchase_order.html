@@ -1,0 +1,233 @@
+{% extends "new_base.html" %} 
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <h3 class="col-6">Purchase Order Master</h3>
+            <div class="col-6">
+                <button type="button" class="btn btn-block btn-info col-2 float-right" data-toggle="modal" href=""
+                    role="button" data-target="#purchaseordermodal"> Create </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="purchaseordertable" class="table table-hover display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>PO Number</th>
+                    <th>PO Title</th>
+                    <th>PO Date</th>
+                    <th>Delivery Date</th>
+                    <th>Warranty Ends</th>
+                    <th>Deadstock Entry Date</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<!-- Modal for Create/Edit -->
+<div class="modal fade bd-example-modal-lg" id="purchaseordermodal" tabindex="-1" role="dialog"
+    aria-labelledby="purchaseOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="purchaseordermodaltitle">Purchase Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="poform"  enctype="multipart/form-data" method="post">
+                    <div class="row">
+                        <div class="col">
+                            <input type="hidden" name="po_id" id="po_id" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" name="po_number" id="po_number" class="form-control form-control-sm bg-white"
+                                placeholder="PO Number" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="text" name="po_title" id="po_title" class="form-control form-control-sm bg-white"
+                                placeholder="PO Title" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            PO Date
+                        </div>
+                        <div class="col">
+                            <input type="date" name="po_date" id="po_date" class="form-control form-control-sm bg-white"
+                                placeholder="PO Date" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            Delivery Date
+                        </div>
+                        <div class="col">
+                            <input type="date" name="delivery_date" id="delivery_date"
+                                class="form-control form-control-sm bg-white" placeholder="Delivery Date" required />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            Warranty Ends On
+                        </div>
+                        <div class="col">
+                            <input type="date" name="warranty_ends" id="warranty_ends"
+                                class="form-control form-control-sm bg-white" placeholder="Warranty Ends" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            Deadstock Entry Date
+                        </div>
+                        <div class="col">
+                            <input type="date" name="deadstock_date" id="deadstock_date"
+                                class="form-control form-control-sm bg-white" placeholder="deadstock_date" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <textarea name="description" id="description" class="form-control form-control-sm bg-white"
+                                placeholder="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="file" name="po_file" id="po_file" class="form-control form-control-sm bg-white" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col text-right">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Handling form submit for saving Purchase Order
+    $("#poform").submit(function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+
+        $.ajax({
+            method: "post",
+            url: "purchaseorder/add",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $("#purchaseordermodal").modal('hide');
+                $("#poform").trigger("reset");
+                notifySuccess("Record Saved Successfully");
+                $('#purchaseordertable').DataTable().ajax.reload();
+            },
+            error: function (data) {
+                notifyFailure("There was an error while saving the record. " + data);
+            }
+        });
+    });
+
+    // Edit function to populate the modal with existing PO data
+    function onEdit(po_id) {
+        $.ajax({
+            method: "get",
+            url: "purchaseorder/get/" + po_id,
+            success: function (data) {
+                function formatDateToISO(dateStr) {
+                    if (!dateStr) return '';
+                    var parts = dateStr.split('-'); // Split MM-DD-YYYY into an array
+                    return parts[2] + '-' + parts[1] + '-' + parts[0]; // Return as YYYY-MM-DD
+                }
+                $("#po_number").val(data.po_number);
+                $("#po_title").val(data.po_title);
+                $("#po_date").val(formatDateToISO(data.po_date));
+                $("#delivery_date").val(formatDateToISO(data.delivery_date));
+                $("#warranty_ends").val(formatDateToISO(data.warranty_ends));
+                $("#deadstock_date").val(formatDateToISO(data.deadstock_date));
+                $("#description").val(data.description);
+                $("#po_title").val(data.po_title);
+                $("#po_id").val(data.id);
+                $("#purchaseordermodal").modal('show');
+            },
+            error: function () {
+                notifyFailure("There was an error while processing. Contact Administrator.");
+            }
+        });
+    }
+
+    // Reset form when modal is hidden
+    $('#purchaseordermodal').on('hidden.bs.modal', function () {
+        $("#poform").trigger("reset");
+        $("#po_id").val('');
+    });
+
+    // Focus on the first input field when modal is shown
+    $("#purchaseordermodal").on('shown.bs.modal', function () {
+        $('#po_number').trigger("focus");
+    });
+
+    // Initialize DataTable
+    $(document).ready(function () {
+        var table = $('#purchaseordertable').DataTable({
+            responsive: true,
+            dom: '<"container-fluid"<"row"<"col"l><"col"B><"col"f>>>rtip',
+            "buttons": ["excel", "pdf"],
+            columnDefs: [{
+                targets: "_all",
+                className: 'text-center'
+            }],
+            "ajax": 'purchaseorder/get_data',
+            "columns": [{
+                "data": "po_number"
+            }, {
+                "data": "po_title"
+            }, {
+                "data": "po_date"
+            }, {
+                "data": "delivery_date"
+            }, {
+                "data": "warranty_ends"
+            }, {
+                "data": "deadstock_date"
+            }, {
+                "data": "description"
+            }, {
+                "data": "po_file",
+                render: function (data, type, row) {
+                    var fileUrl = "{{ url_for('static', filename='uploads/po_files/') }}" + data;
+                    return "<a class='badge' href="+fileUrl+" >View</a>";
+                }
+            },{
+                "data": "id",
+                render: function (data, type, row) {
+                    return '<a id="' + data + '" class="badge badge-success" href="#" onclick="onEdit(' + data + ')">Edit</a>';
+                }
+            }, {
+                "data": "id",
+                render: function (data, type, row) {
+                    return '<a id="po_id_' + data + '" class="badge badge-danger" href="purchaseorder/delete/' + data + '">Delete</a>';
+                }
+            }],
+            "lengthMenu": [
+                [25, 50, -1],
+                [25, 50, "All"]
+            ]
+        });
+    });
+</script>
+
+{% endblock %}

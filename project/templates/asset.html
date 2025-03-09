@@ -34,6 +34,7 @@
                     <th>Status</th>
                     <th>Owner</th>
                     <th>Remarks</th>
+                    <th>PO</th>
                     <th data-priority="3" class="all"></th>
                 </tr>
             </thead>
@@ -106,6 +107,16 @@
                                 <option value="EC">E-Committe</option>
                                 <option value="DC">District Court</option>
                                 <option value="CC">Civil Court</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <select name="purchase_order_id" id="purchase_order_id" class="form-control form-control-sm">
+                                <option value="" selected disabled>Select Purchase Order</option>
+                                {% for po in purchase_orders %}
+                                    <option value="{{ po.id }}">{{ po.po_number }} - {{ po.po_title }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 from project.extention import db
 from sqlalchemy.dialects.postgresql import JSON
-from sqlalchemy_utils import PasswordType
+#from sqlalchemy_utils import PasswordType
 from datetime import datetime
 
 #Users
@@ -15,10 +15,10 @@ class User(db.Model):
     isdeleted = db.Column(db.Boolean(create_constraint=True, name="isdeletedcheck"))
     created_at = db.Column(db.TIMESTAMP(), default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.TIMESTAMP(), default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
-    password = db.Column(PasswordType(64,schemes=[
-            'pbkdf2_sha512',
-            'md5_crypt'
-        ]))
+    #password = db.Column(PasswordType(64,schemes=[
+    #        'pbkdf2_sha512',
+    #        'md5_crypt'
+    #    ]))
     
     @property
     def serialize(self):
@@ -36,7 +36,7 @@ class User(db.Model):
         self.lastname = lastname
         self.emailid = emailid
         self.mobile = None if mobile == '' else mobile 
-        self.password = password
+        #self.password = password
         self.isdeleted = isdeleted
 
     def __repr__(self):
@@ -52,7 +52,8 @@ class User(db.Model):
         self.emailid = emailid
     
     def setPassword(self, password):
-        self.password = password
+        #self.password = password
+        pass
     
     def setMobile(self, mobile):
         self.mobile = mobile

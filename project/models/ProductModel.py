@@ -29,11 +29,14 @@ class Product(db.Model):
         db.TIMESTAMP(), default=datetime.utcnow, nullable=False)
     updated_at = db.Column(db.TIMESTAMP(), default=datetime.utcnow,
                            onupdate=datetime.utcnow, nullable=False)
+    purchase_order_id = db.Column(db.Integer, db.ForeignKey('purchase_order.id'), nullable=True)
+
+    purchase_order = db.relationship('PurchaseOrder', backref='products', lazy=True)
     transactions = db.relationship('Transaction',backref='product',cascade="all, delete-orphan",lazy='dynamic')
     
     
 
-    def __init__(self, product_type_id, category_id, srno, identification, status, owner, remarks=None, currentlocater_id=None):
+    def __init__(self, product_type_id, category_id, srno, identification, status, owner, remarks=None, currentlocater_id=None, purchase_order_id=None):
         self.product_type_id = product_type_id
         self.category_id = category_id
         self.srno = srno
@@ -42,6 +45,7 @@ class Product(db.Model):
         self.owner = owner
         self.remarks = remarks
         self.currentlocater_id = currentlocater_id
+        self.purchase_order_id = purchase_order_id
 
     @property
     def serialize(self):
@@ -71,7 +75,9 @@ class Product(db.Model):
             'ownertext': owner,
             'remarks': self.remarks,
             'currentlocater_id': 0 if self.currentlocater_id == None else self.currentlocater_id,
-            'currentlocation': "" if self.currentlocater_id == None else self.locater.name
+            'currentlocation': "" if self.currentlocater_id == None else self.locater.name,
+            'purchase_order_id': 0 if self.purchase_order_id == None else self.purchase_order_id,
+            'purchase_order': "" if self.purchase_order_id == None else self.purchase_order.po_number
         }
 
     def __repr__(self):
@@ -101,6 +107,9 @@ class Product(db.Model):
     def setCurrentLocaterID(self, locater_id):
         self.currentlocater_id = locater_id
     
+    def setPurchaseOrderID(self, purchase_order_id):
+        self.purchase_order_id = purchase_order_id
+    
 def getSuggestions(term):
     result = db.session.execute(text("SELECT identification from product where identification like '%"+term+"%' UNION SELECT srno from product where srno like '%"+term+"%' LIMIT 10")).fetchall()
     suggestions = []
@@ -124,6 +133,7 @@ def getSummeryByCategory(query):
     return db.session.query(CategoryModel.Category.name,db.func.count(Product.srno)).join(ProductTypeModel.ProductType,Product.product_type_id==ProductTypeModel.ProductType.id).join(CategoryModel.Category,Product.category_id==CategoryModel.Category.id).group_by(CategoryModel.Category.name).all()
 
 def getDesktopDashboardHQ():
+    print(os.environ)
     query = "SELECT name,sum(working) as working ,sum(not_working) as not_working,sum(ewaste) as ewaste FROM (SELECT c.name, CASE WHEN p.status =  'WO' THEN count(*) ELSE 0 END as working, CASE WHEN p.status='NW' THEN count(*) ELSE 0 END as not_working,CASE WHEN p.status =  'EW' THEN count(*) ELSE 0 END as ewaste FROM product p INNER JOIN category c ON c.id = p.category_id INNER JOIN locater l ON l.id = p.currentlocater_id INNER JOIN product_type pt on pt.id = p.product_type_id WHERE l.name in ("+os.getenv('D1_LOCATER')+") and l.ishq='true' and pt.name='"+os.getenv('D1_DESKTOP_PRODUCT_TYPE_NAME')+"' group by c.name, p.status) as inner_query GROUP BY name"
     logger.info("Desktop Dashboard Query : %s" % (query))
     result = db.session.execute(text(query)).fetchall()

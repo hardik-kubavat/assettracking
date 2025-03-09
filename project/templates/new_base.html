@@ -16,10 +16,11 @@
 	<!-- Theme style -->
 	<link rel="stylesheet" href="{{ url_for('static', filename='theme/dist/css/adminlte.css') }}">
 	<!-- DataTables -->
-	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables/datatables.min.css') }}">
+	<!--<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-searchbuilder/css/searchBuilder.bootstrap4.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='theme/plugins/datatables-searchbuilder/css/searchBuilder.bootstrap4.min.css') }}">-->
 	<!-- Custome-->
 	<link rel="stylesheet" href="{{ url_for('static', filename='custom_new.css') }}">
 	<!-- Toastr -->
@@ -148,6 +149,12 @@
 									</a>
 								</li>
 								<li class="nav-item">
+									<a href="{{ url_for('navigation.po') }}" class="nav-link">
+										<i class="nav-icon fa fa-chevron-circle-right"></i>
+										<p>Purchase Order</p>
+									</a>
+								</li>
+								<li class="nav-item">
 									<a href="pages/layout/fixed-sidebar.html" class="nav-link">
 										<i class="nav-icon fa fa-chevron-circle-right"></i>
 										<p>User</p>
@@ -239,8 +246,9 @@
 	<!-- jQuery Mapael -->
 	<script src="{{ url_for('static', filename='theme/plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/raphael/raphael.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='theme/plugins/datatables/datatables.min.js') }}"></script>
 
-	<script src="{{ url_for('static', filename='theme/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='theme/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
@@ -253,7 +261,7 @@
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='theme/plugins/datatables-searchbuilder/js/dataTables.searchBuilder.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='theme/plugins/datatables-searchbuilder/js/searchBuilder.bootstrap4.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='theme/plugins/datatables-searchbuilder/js/searchBuilder.bootstrap4.min.js') }}"></script>-->
 	<!-- Toastr -->
 	<script src="{{ url_for('static', filename='theme/plugins/toastr/toastr.min.js') }}"></script>
 	<!-- Jquery ui -->

@@ -4,12 +4,12 @@ from flask import Flask, render_template,make_response
 from flask.logging import default_handler
 from flask_migrate import Migrate
 import logging
-sys.path.append('/home/hlkubavat/apps/assettracking/venv/lib/python3.8/site-packages')
-sys.path.append('/home/hlkubavat/apps/assettracking')
+sys.path.append('/home/ubuntu/apps/assettracking/venv/lib/python3.8/site-packages')
+sys.path.append('/home/ubuntu/apps/assettracking')
 from config import DevelopmentConfig
 from project.extention import db, migrate
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
 logging.basicConfig(filename=os.getenv("APP_LOG_PATH"), level=logging.INFO, format='%(asctime)s %(name)s %(levelname)s %(message)s',)
 logger = logging.getLogger(__name__)
 
@@ -60,6 +60,8 @@ def create_app():
     app.register_blueprint(rv)
     from project.view.FileView import comv
     app.register_blueprint(comv)
+    from project.view.PurchaseOrderView import pov
+    app .register_blueprint(pov)
     ################### Blueprints #########################
 
     return app

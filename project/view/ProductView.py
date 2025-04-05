@@ -63,9 +63,10 @@ def upload_bulk_products():
     logger.debug("In Products Upload")
     if request.method == 'POST':
         file = request.files['products']
-        logger.debug("File Name is {} ".format(file.filename))
-        import_products(file)
-        return send_file(os.path.join(app.root_path, 'logs', file.filename),as_attachment=True)
+        logger.info("File Name is {} ".format(file.filename))
+        file_path = import_products(file)
+        #return send_file(file,as_attachment=True,download_name="Testfile.xlxs")
+        return send_file(file_path,as_attachment=True)
     return redirect(url_for("navigation.product"),302)
 
 @pv.route('/',methods=["GET"])

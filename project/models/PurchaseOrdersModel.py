@@ -96,3 +96,6 @@ def getById(po_id):
 
 def getByPoNumber(po_number):
     return PurchaseOrder.query.filter_by(po_number=po_number).first()
+
+def getByPoNumber(po_number):
+    return PurchaseOrder.query.filter_by(po_number=po_number).first()

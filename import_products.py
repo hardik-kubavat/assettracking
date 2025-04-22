@@ -13,7 +13,7 @@ def import_products(file):
     sheet = work_book.active
     logger.debug("Column {} Rows ---{}".format(sheet.max_column,sheet.max_row-1))
     load_products(sheet)
-    filepath = os.path.join("/home/ubuntu/apps/assettracking/project/", 'logs', file.filename)
+    filepath = os.path.join("/home/asset/apps/", 'logs', file.filename)
     work_book.save(filepath)
     return filepath
     
